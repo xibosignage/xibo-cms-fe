@@ -1,0 +1,550 @@
+/* Override Xibo peculiarities */
+.row > div {
+    margin-bottom: 0;
+}
+
+/* Hide the header logo, takes up too much room */
+.row.header .meta {
+    display: none;
+}
+
+/* Done overriding Xibo peculiarities */
+ 
+.lb-sm {
+    margin: 2px 0 0 10px;
+    padding: 10px;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.lb-md {
+    margin: 15px 0 0 10px;
+    padding: 7px 10px; 
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.lb-lg {
+    margin: 2px 0 0 10px;
+    padding: 10px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+#timeline {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+#scrollbar {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+
+#timeline .col-md-2, #scrollbar .col-md-2 {
+    width: 10%;
+}
+
+#timeline .col-md-10, #scrollbar .col-md-10 {
+    width: 90%;
+}
+
+
+#timeline .row .col-md-2 {
+    width: 10%;
+    padding: 0;
+    margin: 0;
+}
+
+.region {
+    margin-bottom: 4px;
+    border-radius: 4px;
+    /*border: 2px red dashed;*/
+}
+
+.region-wrap {
+    padding: 15px 0 0 5px;
+}
+.region-control {
+    font-weight: 500;
+    font-size: 13px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: move;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 0px;
+}
+.col-md-2 .region-control {
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+::-webkit-scrollbar-track {
+    background-color: rgba(57,57,57, .2);
+    border-radius: 12x;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(150, 150, 150, .9);
+}
+
+.playlist-body {
+    overflow: hidden;
+}
+
+.playlist {
+    /* background-color: #f5f5f5; */
+    vertical-align: middle;
+    min-height: 42px;
+    margin-top: 6px;
+    margin-bottom: -6px;
+}
+.playlist-scroller-body {
+    overflow-x: scroll;
+}
+
+.playlist-scroller {
+    height: 10px;
+}
+
+.form-control-widget {
+    height: 25px;
+    font-size: 12px;
+    width: 25px;
+    padding: 1px;
+    text-align: right;
+}
+
+.template {
+    display: none !important; /* Enable this for production */
+}
+.btn-default {
+    margin-bottom: 5px;
+}
+.badge {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #444;
+    white-space: nowrap;
+    background-color: #fff;
+    border-radius: 10px;
+}
+#timeline .list-inline > li {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+#timeline .widget-source {
+    display: none;
+}
+#timeline .widget-source.ui-draggable-dragging {
+    display: inline-block;
+}
+
+#timeline .widget {
+    background-color: #eee;
+    border: 0;
+    /* height: 33px; /* No function */
+}
+#timeline .widget-data {
+    padding: 0 0 0 3px;
+    text-align: left;  
+    white-space: nowrap; 
+    overflow: hidden;   
+    color: #000;
+    line-height: 2.8;
+    font-size: 13px; 
+}
+
+#timeline .widget-duration {
+    float: right; 
+    padding:5px 5px 0 0;
+}
+
+.mod-duration-handle.ui-resizable-handle {
+    position: relative;
+    font-size: 11px;
+    float: right; 
+    height: 100%;
+    text-align: center;
+    background-color: #d8d8d8;
+    border: 0px red solid;
+    vertical-align: center;
+    line-height: 350%;
+}
+.mod-duration-handle.ui-resizable-e {
+    width: 10px;
+    cursor: ew-resize;
+    right: 0;
+}
+.mod-list {
+    min-height: 20px;
+    padding: 6px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    -moz-border-radius: 4x;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.03);
+}
+
+/* Widget/Mod icon flyout menu */
+/* need to work on "click" to expand */
+.mod-icon-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    float: left;
+    width: 8px;
+    background-color: #9c9c9c; 
+    white-space: nowrap; 
+    vertical-align: center;
+}
+
+.mod-icon-wrap:hover {
+    overflow: visible;
+    z-index: 1;
+}
+
+
+ul.leftFlyOut {
+    width: 50px;
+    height: 100%;
+    list-style: none;
+    font-size: 14px;
+    display: inline-block;
+    background-color: #9c9c9c;
+    padding: 6px;
+    opacity: 0;
+    transition: all 0.4s ease;
+    /* border-top: 0px solid #104777;
+    border-bottom: 0px solid #104777; */
+
+}
+.mod-icon-wrap:hover > ul.leftFlyOut {
+    opacity: 1;
+}
+
+ul.leftFlyOut li {
+    width: 18px;
+    float: left;
+    position: relative;
+    text-align: center;
+}
+
+ul.leftFlyOut a {
+    /* border: 2px orange dotted; */
+    color:#000;
+    /* color: rgba(103,178,243,.90); */
+}
+ul.leftFlyOut li a:hover {
+    color: #fff;
+}
+
+/* Region Icon Flyout menu */
+/* need to work on "click" to expand */
+.reg-icon-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    float: left;
+    width: 8px;
+    background-color: #304169; 
+    white-space: nowrap; 
+    vertical-align: center;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.reg-icon-wrap:hover {
+    overflow: visible;
+    z-index: 1;
+}
+
+ul.leftFlyOutRegion {
+    width: 85px;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 10px 6px;    
+    font-size: 14px;
+    display: inline-block;
+    background-color: #304169;
+    opacity: 0;
+    transition: all 0.4s ease;
+    /* border-top: 0px solid #104777;
+    border-bottom: 0px solid #104777; */
+
+}
+.reg-icon-wrap:hover > ul.leftFlyOutRegion {
+    opacity: 1;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+ul.leftFlyOutRegion li {
+    width: 18px;
+    float: left;
+    position: relative;
+    text-align: center;
+}
+
+ul.leftFlyOutRegion a {
+    /* border: 2px orange dotted; */
+    color:#b1b1b1;
+    /* color: rgba(103,178,243,.90); */
+}
+ul.leftFlyOutRegion li a:hover {
+    color: #fff;
+}
+
+/* Layout and Preview Boxes */
+.panel-body {
+    padding: 0;
+}
+.preview-icons {
+    float: left;
+    position: relative;
+    width: 50px;
+    display: block;
+    list-style-type: disc;
+    border: 0px red solid;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+}
+.preview-size {
+    top: -5px;
+    float: right;
+    position: relative;
+    border: 0px red solid;
+}
+
+.widget-text {
+}
+.widget-image{
+}
+.widget-video{
+}
+.widget-ticker {
+}
+.widget-googletraffic {
+}
+.widget-forecastio {
+}
+.widget-currencies {
+}
+
+.toolbox .regions {
+    position:relative; /* This is here to make sure our regions are relative to this */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.toolbox .regions .region {
+    float: left;
+    margin: 0;
+    padding: 3px;
+    position: absolute;
+}
+
+/* 11n + 0 - change 11 to the total number of color combinations  */
+
+.regions .region:nth-child(11n+10) { /* Widget */
+    background-color: rgba(238,238,238,1.0);
+}
+.regions .region:nth-child(11n+0) { /* light green J*/
+    background-color: rgba(178,218,165,.55);
+}
+.regions .region:nth-child(11n+1) { /* green I*/
+    background-color: rgba(115,152,102,.55);
+}
+.regions .region:nth-child(11n+9) { /* red H*/
+    background-color: rgba(193,115,115,.55);
+}
+.regions .region:nth-child(11n+8) { /* brown G*/
+    background-color: rgba(187,154,115,.55);
+}
+.regions .region:nth-child(11n+7) { /* orange F*/
+    background-color: rgba(237,174,72,.55); 
+}
+.regions .region:nth-child(11n+6) { /* gold E*/
+    background-color: rgba(237,212,149,.55);
+}
+.regions .region:nth-child(11n+5) { /* tan D*/
+    background-color: rgba(228,220,203,.55);
+}
+.regions .region:nth-child(11n+4) { /* violet C*/
+    background-color: rgba(181,195,237,.55);
+}
+.regions .region:nth-child(11n+3) { /* light blue B*/
+    background-color: rgba(145,211,251,.55);
+}
+.regions .region:nth-child(11n+2) { /*  blue A*/
+    background-color: rgba(133,188,220,.55);
+}
+
+
+/* Active state color combinations  */
+.regions .active.region:nth-child(11n+10) { /* Widget */
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(238,238,238,1.0),
+        rgba(238,238,238,1.0) 8px,
+        rgba(211,211,211,1.0) 8px,
+        rgba(211,211,211,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+1) { /* green I*/
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(115,152,102,1.0),
+        rgba(115,152,102,1.0) 8px,
+        rgba(182,218,169,1.0) 8px,
+        rgba(182,218,169,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+2) { /* blue A*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(133,188,220,1.0),
+        rgba(103,198,255,1.0) 8px,
+        rgba(176,225,253,1.0) 8px,
+        rgba(176,225,253,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+3) { /* light blue B*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(168,222,255,1.0),
+        rgba(168,222,255,1.0) 8px,
+        rgba(214,240,255,1.0) 8px,
+        rgba(214,240,255,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+4) { /* violet C*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(181,195,237,1.0),
+        rgba(181,195,237,1.0) 8px,
+        rgba(204,215,248,1.0) 8px,
+        rgba(204,215,248,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+5) { /* tan D*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(228,220,203,1.0),
+        rgba(228,220,203,1.0) 8px,
+        rgba(198,193,181,1.0) 8px,
+        rgba(198,193,181,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+6) { /* gold E*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(237,212,149,1.0),
+        rgba(237,212,149,1.0) 8px,
+        rgba(253,235,188,1.0) 8px,
+        rgba(253,235,188,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+7) { /* orange F*/
+    background: repeating-linear-gradient(
+      135deg,
+      #edae48,
+      #edae48 8px,
+      #fad395 8px,
+      #fad395 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+8) { /* brown G*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(187,154,115,1.0),
+        rgba(187,154,115,1.0) 8px,
+        rgba(211,185,155,1.0) 8px,
+        rgba(211,185,155,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+9) { /* red H*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(183,115,115,1.0),
+        rgba(183,115,115,1.0) 8px,
+        rgba(231,149,149,1.0) 8px,
+        rgba(231,149,149,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+.regions .active.region:nth-child(11n+0) { /* light green J*/
+    background: repeating-linear-gradient( 
+        135deg,
+        rgba(178,218,165,1.0),
+        rgba(178,218,165,1.0) 8px,
+        rgba(213,248,202,1.0) 8px,
+        rgba(213,248,202,1.0) 15px
+    ) !important; /* This !important overrides the style tag applied by jQuery */
+}
+
+.regions .active.region {
+    z-index: 100 !important;
+}
+
+.region-letter, .region-dimensions {
+    padding: 3px;
+    margin-right: 3px;
+    min-width: 20px;
+    background-color: #333;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;    
+    vertical-align: center;
+    border-radius: 4px;
+    float: left;
+}
+
+.region-dimensions {
+    display: none;
+}
+
+.active.region .region-dimensions {
+    display: block;
+}
+
+.corner-scale::before,
+.corner-scale::after {
+    content: '';
+    position: absolute;
+    right: 0;    
+    bottom: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+.corner-scale::after {
+    border-radius: 0;
+    border-width: 6px;
+    border-right-color: #333;
+    border-bottom-color: #333;
+}
+
+
