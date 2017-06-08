@@ -1,0 +1,41 @@
+{
+  "name": "SimpleEditor",
+  "version": "0.0.1",
+  "description": "A Live Layout editor for the Xibo project",
+  "main": "editor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guruevi/xibo-cms-fe.git"
+  },
+  "keywords": [],
+  "author": "Evi Vanoost",
+  "license": "AGPL",
+  "bugs": {
+    "url": "https://github.com/guruevi/xibo-cms-fe/issues"
+  },
+  "homepage": "https://github.com/guruevi/xibo-cms-fe",
+  "devDependencies": {
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.0",
+    "gulp-cache": "^0.4.5",
+    "gulp-clean-css": "^2.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-if": "^2.0.2",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-order": "^1.1.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-scp2": "^0.2.0",
+    "gulp-stylus": "^2.0.6",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.6",
+    "minimist": "^1.1.3"
+  },
+  "dependencies": {
+    "gulp-rsync": "0.0.7"
+  }
+}

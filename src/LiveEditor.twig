@@ -1,0 +1,473 @@
+{% extends "authed.twig" %}
+{% import "inline.twig" as inline %}
+{% block headContent %}  
+<link href="/modules/liveeditor/css/liveeditor.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block pageContent %}
+
+<div id="header-content">
+    <div class="pull-left"> 
+        <ul class="list-inline"><li>
+            <select id="select-layout" class="form-control"><option value="0">Select Layout</option></select>
+            </li>
+            <li>
+                <span class="label label-info lb-md"><i class="fa fa-clock-o" aria-hidden="true"></i> <span id="layout-time">00:00:00</span></span>
+            </li>
+            <li>
+                <!-- TODO: Turn off live updates <button type="button" class="btn btn-default btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i> Save Region Position</button></li>-->
+        </ul>
+
+        <!--div class="designer-control-panel-checkbox override-layout">
+<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-small bootstrap-switch-animate bootstrap-switch-off" style="width: 157.67px;"><div class="bootstrap-switch-container" style="width: 192px; margin-left: -36px;"><span class="bootstrap-switch-handle-on bootstrap-switch-success" style="width: 36px;">On</span><span class="bootstrap-switch-label" style="width: 120px;">Lock Positions</span><span class="bootstrap-switch-handle-off bootstrap-switch-danger" style="width: 36px;">Off</span><input type="checkbox" class="switch-check-box" name="lockPosition" data-size="small" data-off-color="danger" data-on-color="success" data-label-width="100" data-label-text="Lock Positions" data-on-text="On" data-off-text="Off"></div></div>
+</div-->
+        <!---input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger"-->
+    </div>                
+    <div class="pull-right">
+        <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i> Save Timeline</button>-->
+        <button type="button" class="btn btn-default btn-sm" onclick="previewTimeline(this)"><i class="fa fa-eye" aria-hidden="true"></i> Preview Timeline</button>
+        <button type="button" class="btn btn-default btn-sm" onclick="layoutAction(this, 'layout_button_schedulenow')"><i class="fa fa-calendar-plus-o"></i> Schedule Now</button>
+        <button type="button" class="btn btn-default btn-sm" onclick="saveAsTemplate(this)"><i class="fa fa-file-text" aria-hidden="true"></i> Save as Template</button>
+    </div> 
+</div>
+
+
+<div class="container">
+
+    <!-- Layout Timeline with Regions and Playlists -->
+    <div class="section" id="timeline-section">
+        <!-- Timeline(s) -->
+        <div id="scrollbar" class="row">
+            <div class="col-md-2">
+                <span>&nbsp;</span>
+            </div>
+            <div class="col-md-10">
+                <ul class="list-inline playlist-scroller-body" style="overflow-x: scroll;">
+                    <li id="playlist-scrollbar" class="playlist-scroller" style="height: 8px;"></li>
+                </ul>
+            </div>
+        </div>
+        <div id="timeline" class="regions">  
+            <!-- We make this a template, we will clone the template as necessary -->
+            <div class="row region template">
+                <!-- Region Name -->
+                <div class="col-md-2 region-control">
+                    <!-- Region Flyout Menu -->
+                    <div class="reg-icon-wrap">
+                        <ul class="leftFlyOutRegion">
+                            <li><a title="Delete" onclick="regionDelete(this)"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                            <li><a title="Permissions" onclick="regionPermissions(this)"><i class="fa fa-lock" aria-hidden="true"></i></a></li>
+                            <!--<li><a title="Preview" onclick="regionPreview(this)"><i class="fa fa-eye" aria-hidden="true"></i></a></li>-->
+                            <li><a title="Edit" onclick="regionEdit(this)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>  
+                        </ul>
+                    </div>
+                    <div class="region-wrap">
+                        &nbsp; <i class="fa fa-arrows large" aria-hidden="true"></i>&nbsp;&nbsp; 
+                        <span class="region-name">Region A</span> 
+                    </div>                                 
+                </div>
+                <div class="col-md-10 playlist-body">
+                    <ul class="list-inline playlist template">
+                        <li class="widget template">
+                            <div class="mod-duration-handle ui-resizable-handle ui-resizable-e">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </div>
+                            <div class="mod-icon-wrap">
+                                <ul class="leftFlyOut">
+                                    <li><a title="Delete" onclick="deleteWidget(this)"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                    <li><a title="Permissions" onclick="permissionsWidget(this)"><i class="fa fa-lock" aria-hidden="true"></i></a></li>
+                                    <!--<li><a title="Preview" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a></li>-->
+                                    <!--<li><a title="Edit" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>--> 
+                                </ul>
+                            </div>
+                            <div class="widget-duration">
+                                <input type="text" class="form-control form-control-widget"><span class="badge">20</span>
+                            </div>                                                          
+                            <div class="widget-data"><span class="widget-type" title="Widget Type">Widget Type</span></div>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- / Region -->
+        </div><!-- / Timeline -->
+        <div class="row ">
+            <div class="col-md-12">
+                <ul class="list-inline mod-list">
+                    <li id="addLibrary" class="btn btn-default widget-source" data-widget-type="library" ><i class="fa fa-1x fa-file-text-o fa-fw"></i> Library
+                    </li>
+                    <!--<li id="addAudio"><span class="btn btn-default widget-source" data-widget-type="audio"><i class="fa fa-volume-up"></i> Audio</span>
+</li>-->
+                    <li id="addImage" class="btn btn-default widget-source" data-widget-type="image" data-valid-extensions="jpg,jpeg,png,bmp,gif"><i class="fa fa-picture-o"></i> Image
+                    </li>
+                    <li id="addVideo" class="btn btn-default widget-source" data-widget-type="video" data-valid-extensions="avi,mpg,mpeg,webm,mp4,m4v"><i class="fa fa-video-camera"></i> Video  
+                    </li>
+                    <!--
+<li><span class="btn btn-default widget-source" data-widget-type="text-data"><i class="fa fa-file-text-o"></i> Text Data</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="html"><i class="fa fa-code"></i> HTML</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="text"><i class="fa fa-font"></i> Text</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="url"><i class="fa fa-mouse-pointer"></i> Web URL</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="ticker"><i class="fa fa-newspaper-o"></i> Ticker</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="video-url"><i class="fa fa-film"></i> Video Stream</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="clock"><i class="fa fa-clock-o"></i> Clock</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="flash"><i class="fa fa-bolt"></i> Flash</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="weather"><i class="fa fa-cloud"></i> Weather</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="traffic"><i class="fa fa-car"></i> Traffic</span>    
+</li>                              
+<li><span class="btn btn-default widget-source" data-widget-type="dataset"><i class="fa fa-database"></i> Data Set</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="powerpoint"><i class="fa fa-windows"></i> PowerPoint</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="currency"><i class="fa fa-money"></i> Currency</span>
+</li>
+<li><span class="btn btn-default widget-source" data-widget-type="command"><i class="fa fa-terminal"></i> Commands</span>
+</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="section row" id="toolbox-section">
+        <div class="col-md-6 toolbox toolbox-layout">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">Layout Viewer (Regions)</span>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs"  data-toggle="button" aria-pressed="false" autocomplete="off" onclick="lockRegions(this)">Lock Positions</button>
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Layout Options <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a onclick="layoutAddRegion(this)">Add Region</a></li>
+                            <li><a onclick="layoutAction(this, 'layout_button_edit')">Options/Background</a></li>
+                            <li><a onclick="layoutAction(this, 'layout_button_permissions')">Permissions</a></li>
+                            <li><a onclick="layoutAction(this, 'layout_button_retire')">Retire</a></li>
+                            <li><a onclick="layoutAction(this, 'layout_button_delete')">Delete</a></li>
+                        </ul>
+
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body btm-wrapper regions">  
+                        <div class="template region">
+                            <!--<div class="btn-group pull-right">
+<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li><a onclick="showDimensions(this);" data-source=".region" data-target=".region-dimensions">Show Dimensions</a></li>
+</ul>
+</div>     -->                    
+                            <div class="region-letter">A</div>
+                            <div class="region-dimensions"></div>
+                        </div>                                    
+                    </div>
+                </div>                        
+            </div>
+        </div>
+
+        <div class="col-md-6 toolbox toolbox-preview">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="float: right; font-size: 16px;">
+                        <a title="Edit" onclick="editWidget(this)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <!--<a title="Play" href="#"><i class="fa fa-play-circle" aria-hidden="true"></i></a>
+<a title="Pause" href="#"><i class="fa fa-pause-circle" aria-hidden="true"></i></a>
+<a title="Stop" href="#"><i class="fa fa-stop-circle" aria-hidden="true"></i></a>
+<a title="Refresh" href="#"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+<button type="button" class="btn btn-default btn-xs">Close</button>-->
+                    </div>
+                    <h3 class="panel-title">Widget Viewer</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body" id="widget-preview">  
+                        Click on a widget to load the preview
+                    </div>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div> <!-- End container -->
+{% endblock %}
+{% block javaScript %}
+<script type="text/javascript" src="/modules/liveeditor/js/liveeditor.js"></script>
+<script src='{{ theme.uri("js/xibo-layout-designer.js") }}'></script>
+<script type="text/javascript">
+    var translation = {
+        savePositionsFirst: "{% autoescape "js" %}{{ "Please save the pending position changes first by clicking Save Positions or cancel by clicking Undo."|trans }}{% endautoescape %}"
+    };
+    // Callback for the media form
+    function mediaFormCallBack(dialog) {
+
+        $(dialog).closest(".modal").addClass("modal-big");
+
+        // prevent filter form submit
+        $("#libraryAssignFilterOptions").find("form").on("submit", function(e) {
+            e.preventDefault();
+            return false;
+        });
+        var mediaTable = $("#mediaAssignments").DataTable({
+            "language": dataTablesLanguage,
+            serverSide: true, stateSave: true,
+            searchDelay: 3000,
+            "order": [[1, "asc"]],
+            "filter": false,
+            ajax: {
+                url: "{{ urlFor("library.search") }}",
+                "data": function (d) {
+                $.extend(d, $("#libraryAssignFilterOptions").find("form").serializeObject());
+            }
+        },
+                                                          "columns": [
+                                                          {"data": "mediaId"},
+                                                          {"data": "name"},
+                                                          {"data": "mediaType"},
+                                                          {
+                                                          "name": "mediaId",
+                                                          "data": null,
+                                                          "render": {"_": "thumbnail", "display": "thumbnail", "sort": "mediaId"}
+                                                          },
+                                                          {
+                                                          "sortable": false,
+                                                          "data": function (data, type, row, meta) {
+            if (type != "display")
+                return "";
+            // Create a click-able span
+            return "<a href=\"#\" class=\"assignItem\"><span class=\"glyphicon glyphicon-plus-sign\"></a>";
+        }
+    }
+    ]
+    });
+    mediaTable.on('draw', function (e, settings) {
+        dataTableDraw(e, settings);
+        // Clicky on the +spans
+        $(".assignItem", "#mediaAssignments").click(function () {
+            // Get the row that this is in.
+            var data = mediaTable.row($(this).closest("tr")).data();
+            // Construct a new list item for the lower list and append it.
+            var newItem = $("<li/>", {
+                "text": " " + data.name,
+                "data-media-id": data.mediaId,
+                "class": "li-sortable",
+                "dblclick": function () {
+                    $(this).remove();
+                }
+            });
+            newItem.appendTo("#LibraryAssignSortable");
+            // Add a span to that new item
+            $("<span/>", {
+                "class": "glyphicon glyphicon-minus-sign",
+                click: function () {
+                    $(this).parent().remove();
+                }
+            }).prependTo(newItem);
+        });
+    });
+    mediaTable.on('processing.dt', dataTableProcessing);
+    // Make our little list sortable
+    $("#LibraryAssignSortable").sortable();
+    // Bind the filter form
+    $("#libraryAssignFilterOptions").find("input, select").change(function () {
+        mediaTable.ajax.reload();
+    });
+    }
+    /**
+             * Open Upload Form
+             */
+    function openUploadForm(templateOptions, buttons) {
+        // Close the current dialog
+        XiboDialogClose();
+        var template = Handlebars.compile($("#template-file-upload").html());
+        // Handle bars and open a dialog
+        bootbox.dialog({
+            message: template(templateOptions),
+            title: "{% trans "Upload media" %}",
+            buttons: buttons,
+            updateInAllChecked: {% if settings.LIBRARY_MEDIA_UPDATEINALL_CHECKB == "Checked" %}true{% else %}false{% endif %},
+                       deleteOldRevisionsChecked: {% if settings.LIBRARY_MEDIA_DELETEOLDVER_CHECKB == "Checked" %}true{% else %}false{% endif %}
+                       }).on('shown.bs.modal', function () {
+            // Configure the upload form
+            var url = "{{ urlFor("library.add") }}";
+            var form = $(this).find("form");
+            // Initialize the jQuery File Upload widget:
+            form.fileupload({
+                url: url,
+                disableImageResize: false
+            });
+            // Upload server status check for browsers with CORS support:
+            if ($.support.cors) {
+                $.ajax({
+                    url: url,
+                    type: 'HEAD'
+                }).fail(function () {
+                    $('<span class="alert alert-error"/>')
+                        .text('Upload server currently unavailable - ' + new Date())
+                        .appendTo(form);
+                });
+            }
+            // Enable iframe cross-domain access via redirect option:
+            form.fileupload(
+                'option',
+                'redirect',
+                window.location.href.replace(
+                    /\/[^\/]*$/,
+                    '/cors/result.html?%s'
+                )
+            );
+            form.bind('fileuploadsubmit', function (e, data) {
+                var inputs = data.context.find(':input');
+                if (inputs.filter('[required][value=""]').first().focus().length) {
+                    return false;
+                }
+                data.formData = inputs.serializeArray().concat(form.serializeArray());
+                inputs.filter("input").prop("disabled", true);
+            });
+        });
+    }
+    // Click Handler for Library Upload Buttons (image, video, powerpoint, flash)
+    function libraryUpload(playlistId, validExt) {
+        var validExt = validExt.replace(/,/g, "|");
+        openUploadForm({
+                trans: {
+                    addFiles: "{% trans "Add files" %}",
+                    startUpload: "{% trans "Start upload" %}",
+                    cancelUpload: "{% trans "Cancel upload" %}"
+                },
+                upload: {
+                    maxSize: {{ libraryUpload.maxSize }},
+                    maxSizeMessage: "{{ libraryUpload.maxSizeMessage }}",
+                    validExt: validExt
+                },
+                playlistId: playlistId
+            }, {
+                library: {
+                       label: "{% trans "View Library" %}",
+                       callback: function () {
+                       XiboFormRender("{{ urlFor("playlist.library.assign.form") }}".replace(":id", playlistId));
+                }
+            },
+            main: {
+                label: "{% trans "Done" %}",
+                className: "btn-primary",
+                callback: function () {
+                    //We've done uploading everything, remove the AJAX handler
+                    $(document).off("ajaxSuccess.upload");
+                }
+            }
+        });
+    }
+    /**
+             * Media Edit form
+             */
+    function mediaEditFormOpen(dialog) {
+        if (dialog.find("form").data().mediaEditable != 1)
+            return;
+        // Create a new button
+        var footer = dialog.find(".modal-footer");
+        var mediaId = dialog.find("form").data().mediaId;
+        var widgetId = dialog.find("form").data().widgetId;
+        var validExtensions = dialog.find("form").data().validExtensions;
+        // Append
+        var replaceButton = $('<button class="btn btn-warning">').html("{% trans "Replace" %}");
+        replaceButton.click(function (e) {
+            e.preventDefault();
+            // Open the upload dialog with our options.
+            openUploadForm({
+                oldMediaId: mediaId,
+                widgetId: widgetId,
+                {% if config.LIBRARY_MEDIA_UPDATEINALL_CHECKB == "Checked" %}
+                           updateInAllChecked: true,
+                           {% else %}
+                           updateInAllChecked: false,
+                           {% endif %}
+                           trans: {
+                           addFiles: "{% trans "Add Replacement" %}",
+                           startUpload: "{% trans "Start Replace" %}",
+                           cancelUpload: "{% trans "Cancel Replace" %}",
+                           updateInLayouts: {
+                           title: "{% trans "Update this media in all layouts it is assigned to?" %}",
+                           helpText: "{% trans "Note: It will only be updated in layouts you have permission to edit." %}"
+                           },
+                           deleteOldRevisions: {
+                           title: "{% trans "Delete the old version?" %}",
+                           helpText: "{% trans "Completely remove the old version of this media item if a new file is being uploaded." %}"
+                           }
+                           },
+                           upload: {
+                           maxSize: {{ libraryUpload.maxSize }},
+                           maxSizeMessage: "{{ libraryUpload.maxSizeMessage }}",
+                           validExt: validExtensions
+                           }
+                           }, {
+                           main: {
+                           label: "{% trans "Done" %}",
+                           className: "btn-primary",
+                           callback: function () {
+                                //TODO: Wait for the upload to complete, then find where this item is supposed to be inserted.
+            }
+        }
+                            });
+    });
+    footer.find(".btn-primary").before(replaceButton);
+    }
+    function timelineGridCallback(dialog) {
+        dialog.addClass("modal-big");
+        var timelineWidgetTabel = $("#timelineWidgets").DataTable({
+            "language": dataTablesLanguage,
+            serverSide: true, stateSave: true,
+            filter: false,
+            searchDelay: 3000,
+            "order": [[0, "asc"]],
+            ajax: {
+                url: "{{ urlFor("playlist.widget.search") }}",
+                "data": function (d) {
+                $.extend(d, $("#timelineWidgets").closest(".XiboGrid").find(".FilterDiv form").serializeObject());
+            }
+        },
+                                                                  "columns": [
+                                                                  {"data": "displayOrder"},
+                                                                  {"data": "name", "orderable": false},
+                                                                  {"data": "type"},
+                                                                  {"data": "duration"},
+                                                                  {"data": "transition"},
+                                                                  {
+                                                                  "orderable": false,
+                                                                  "data": dataTableButtonsColumn
+                                                                  }
+                                                                  ]
+                                                                  });
+        timelineWidgetTabel.on('draw', dataTableDraw);
+        timelineWidgetTabel.on('processing.dt', dataTableProcessing);
+    }
+    function DeleteRegion(form, regionId) {
+        $.ajax({
+            type: form.attr("method"),
+            url: form.attr("action"),
+            cache: false,
+            dataType: "json",
+            data: form.serialize(),
+            success: function (xhr, textStatus, error) {
+                XiboSubmitResponse(xhr, form);
+                if (xhr.success)
+                    $("#region_" + regionId).remove();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                SystemMessage(xhr.responseText, false);
+            }
+        });
+    }
+</script>
+
+
+{% for module in modules %}
+{% if module.layoutDesignerJavaScript() != "" %}
+{% include module.layoutDesignerJavaScript() ~ ".twig" %}
+{% endif %}
+{% endfor %}
+
+{% endblock %}
