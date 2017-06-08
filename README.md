@@ -8,7 +8,7 @@
 - The PHP files go in XiboRoot/custom (developers probably should symlink this for simplicity)
 - The Twig files go in XiboRoot/views 
 - The rest stays where it is
-- In XiboRoot/web/settings.php add $middleware = [new \Xibo\Custom\LiveEditor()]; at the end of the file
+- In XiboRoot/web/settings.php add `$middleware = [new \Xibo\Custom\LiveEditor()];` at the end of the file
 - It "should" work when you go to your browser and enter www.yourxibohost.com/liveeditor
 - Create your custom themes and/or Xibo to link to the page
 
@@ -19,3 +19,11 @@ This needs testing, it's alpha phase at best and it may eat your layouts (althou
 This also needs optimization in various ways, there are some ugly constructions in there
 UX designers should consider adding smoothing and light animation effects.
 Please consider contributing to this project and the parent Xibo project
+
+# Issues
+Issues are tracked in the central Xibo issue repository, with tag "spa" - standing for single page application.
+
+This development effort is intended to [improve the layout designer](https://github.com/xibosignage/xibo/issues/556) 
+in 1.9 series, and go on to be a full SPA in 2.0 series.
+
+Current open issues can be viewed [here](https://github.com/xibosignage/xibo/issues?q=is%3Aopen+is%3Aissue+label%3Aspa).
